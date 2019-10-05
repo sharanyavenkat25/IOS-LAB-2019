@@ -89,3 +89,11 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+//dumps ptable onto proc.dump file
+int
+sys_cps(void)
+{
+  return cps();
+}
+

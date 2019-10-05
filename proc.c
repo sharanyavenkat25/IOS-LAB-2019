@@ -532,3 +532,21 @@ procdump(void)
     cprintf("\n");
   }
 }
+int cps(void)
+{
+static char *states[] = {
+  [UNUSED]    "unused",
+  [EMBRYO]    "embryo",
+  [SLEEPING]  "sleep",
+  [RUNNABLE]  "runble",
+  [RUNNING]   "run",
+  [ZOMBIE]    "zombie"
+  };
+  struct proc *ptr;
+  
+  for(ptr = ptable.proc; ptr < &ptable.proc[NPROC] && ptr->state != UNUSED; ptr++)
+  {
+     cprintf("(%d,%s,%s)\n",ptr->pid,ptr->name,states[ptr->state]);
+  }
+	return 1;	
+}

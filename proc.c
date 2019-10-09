@@ -333,6 +333,7 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+	p->priority=10;
       if(p->state != RUNNABLE)
         continue;
 
@@ -342,6 +343,7 @@ scheduler(void)
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
+      
 
       swtch(&(c->scheduler), p->context);
       switchkvm();
@@ -546,7 +548,7 @@ static char *states[] = {
   
   for(ptr = ptable.proc; ptr < &ptable.proc[NPROC] && ptr->state != UNUSED; ptr++)
   {
-     cprintf("(%d,%s,%s)\n",ptr->pid,ptr->name,states[ptr->state]);
+     cprintf("(%d,%s,%s,%d)\n",ptr->pid,ptr->name,states[ptr->state],ptr->priority);
   }
 	return 1;	
 }
